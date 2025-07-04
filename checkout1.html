@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Produk - NathanComp</title>
+    <!-- Font Awesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* CSS INTERNAL UNTUK HALAMAN DETAIL PRODUK */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-dark: #1F2937;
+            --bg-light-gray: #f3f4f6;
+            --bg-white: #ffffff;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
+            --text-blue: #3B82F6;
+            --border-color: #E5E7EB;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        .page-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Navbar (sama seperti sebelumnya) */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid var(--border-color); }
+        .navbar-left { display: flex; align-items: center; gap: 40px; }
+        .logo { font-size: 24px; font-weight: 800; }
+        .navbar nav { display: flex; gap: 30px; }
+        .navbar nav a { color: var(--text-gray); font-weight: 500; }
+        .navbar-right { display: flex; align-items: center; gap: 20px; }
+        .search-bar { position: relative; }
+        .search-bar input { background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 20px; padding: 8px 35px 8px 15px; }
+        .search-bar i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-gray); }
+        .cart-icon i { font-size: 20px; }
+        .profile-icon { width: 32px; height: 32px; background-color: #121212; border-radius: 50%; }
+
+        /* Product Detail Section */
+        .product-detail-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        
+        .product-gallery { display: flex; flex-direction: column; gap: 15px; }
+        .main-image { background-color: var(--bg-light-gray); border-radius: 20px; padding: 30px; display: flex; justify-content: center; align-items: center; }
+        .main-image img { max-width: 100%; height: auto; }
+        .thumbnail-gallery { display: flex; gap: 15px; }
+        .thumbnail { flex: 1; background-color: var(--bg-light-gray); border-radius: 12px; padding: 10px; cursor: pointer; border: 2px solid transparent; }
+        .thumbnail.active { border-color: var(--text-dark); }
+        .thumbnail img { width: 100%; height: auto; }
+
+        .product-info h1 { font-size: 48px; font-weight: 800; }
+        .product-rating { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .product-rating .stars { color: #8A00FC; }
+        .product-rating .reviews { color: var(--text-gray); }
+        .best-seller-tag { background-color: #e7c7fe; color: #8A00FC; font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 12px; margin-left: 10px; }
+        .product-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 25px 0; }
+        .feature-item { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; }
+        .feature-item i { color: var(--text-gray); font-size: 20px; }
+        .product-price { font-size: 36px; font-weight: 700; margin-bottom: 15px; }
+        .product-description { color: var(--text-gray); line-height: 1.6; margin-bottom: 20px; }
+        .spec-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        .spec-list li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .spec-list i { color: var(--text-blue); font-size: 14px; background-color: #DBEAFE; padding: 4px; border-radius: 50%; }
+        .actions { display: flex; gap: 15px; }
+        .quantity-selector { display: flex; align-items: center; border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; }
+        .quantity-selector button { background: none; border: none; font-size: 20px; cursor: pointer; padding: 0 15px; color: var(--text-gray); }
+        .quantity-selector .quantity { font-weight: 600; font-size: 18px; padding: 0 10px; }
+        .add-to-cart-btn { flex-grow: 1; background-color: var(--bg-dark); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; }
+
+        /* Checkout Section */
+        .checkout-section { margin-top: 80px; }
+        .checkout-section-title { font-size: 36px; font-weight: 800; margin-bottom: 30px; }
+        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; }
+
+        .address-box { background-color: var(--bg-dark); color: white; border-radius: 12px; padding: 25px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .address-details { display: flex; gap: 15px; }
+        .address-details i { font-size: 24px; margin-top: 5px; }
+        .address-info h4 { font-weight: 600; }
+        .address-info p { font-size: 14px; color: #D1D5DB; margin-top: 5px; }
+        .change-btn { background-color: white; color: var(--text-dark); border: none; border-radius: 8px; padding: 10px 20px; font-weight: 600; cursor: pointer; }
+        
+        .cart-summary { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; }
+        .cart-summary h4 { font-weight: 600; margin-bottom: 20px; }
+        .cart-summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .cart-summary-item p { font-size: 14px; }
+        .cart-summary-item .qty { border: 1px solid var(--border-color); border-radius: 6px; padding: 5px 10px; font-size: 12px; }
+
+        .note-box { border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
+        .note-box label { font-weight: 600; display: block; margin-bottom: 10px; }
+        .note-box textarea { width: 100%; border: none; outline: none; resize: none; font-family: 'Inter', sans-serif; font-size: 14px; }
+        
+        .payment-box h4 { font-weight: 600; margin-bottom: 20px; }
+        .payment-option { display: flex; align-items: center; gap: 15px; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 15px; cursor: pointer; }
+        .payment-option img { height: 24px; }
+        .promo-code input { width: 100%; border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; font-size: 14px; margin-top: 15px; }
+        .total-bill { display: flex; justify-content: space-between; font-size: 18px; margin-top: 30px; }
+        .total-bill span:last-child { font-weight: 700; }
+        .buy-now-lg-btn { width: 100%; background-color: var(--bg-dark); color: white; border: none; border-radius: 12px; padding: 20px; font-size: 20px; font-weight: 700; cursor: pointer; margin-top: 20px; }
+
+        /* Footer */
+        footer { background-color: #121212; color: var(--bg-white); padding: 60px 0 30px 0; margin-top: 80px; }
+        .footer-wrapper { display: flex; flex-direction: column; }
+        .footer-content { display: flex; justify-content: flex-start; gap: 100px; padding-bottom: 50px; margin-bottom: 30px; border-bottom: 1px solid #444; }
+        .footer-column h4 { font-size: 16px; margin-bottom: 20px; font-weight: 600; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul a { color: var(--text-gray); font-size: 14px; }
+        .footer-credit { text-align: center; color: var(--text-gray); font-size: 14px; }
+        .footer-credit .heart { color: #9f4bff; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="navbar-left">
+            <a href="home.html" class="logo">NC</a>
+            <nav>
+                <a href="#">Deals</a>
+                <a href="display.html">Gaming PCs</a>
+                <a href="#">PC Component</a>
+            </nav>
+        </div>
+        <div class="navbar-right">
+            <div class="search-bar">
+                <input type="text" placeholder="">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <a href="cartpage.html" class="cart-icon"><i class="fa-solid fa-cart-shopping"></i></a>
+            <a href="#" class="profile-icon"></a>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <div class="product-detail-layout">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img src="img/g1.png" alt="Gladius 1 Main Image">
+                </div>
+                <div class="thumbnail-gallery">
+                    <div class="thumbnail active"><img src="img/g1.png" alt="Thumbnail 1"></div>
+                    <div class="thumbnail"><img src="img/g1.png" alt="Thumbnail 2"></div>
+                    <div class="thumbnail"><img src="img/g1.png" alt="Thumbnail 3"></div>
+                    <div class="thumbnail"><img src="img/g1.png" alt="Thumbnail 4"></div>
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1>Gladius 1</h1>
+                <div class="product-rating">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="reviews">5.0 (895 Reviews)</span>
+                    <span class="best-seller-tag">Best Seller</span>
+                </div>
+                <div class="product-features">
+                    <div class="feature-item"><i class="fas fa-shield-alt"></i> 3-Year Warranty</div>
+                    <div class="feature-item"><i class="fas fa-shipping-fast"></i> Free Shipping</div>
+                    <div class="feature-item"><i class="fas fa-undo-alt"></i> Free Returns</div>
+                    <div class="feature-item"><i class="fas fa-check-circle"></i> Quality Checked</div>
+                </div>
+                <p class="product-price">Rp 12.499.000</p>
+                <p class="product-description">Gladius 1 adalah titik awal yang sempurna untuk masuk ke dunia PC gaming. Dirakit dengan komponen yang telah teruji untuk memberikan frame rate yang stabil pada game-game populer saat ini di resolusi 1080p.</p>
+                <ul class="spec-list">
+                    <li><i class="fas fa-check"></i> Windows 11 Home</li>
+                    <li><i class="fas fa-check"></i> NVIDIA GeForce RTX 3060 8GB GPU</li>
+                    <li><i class="fas fa-check"></i> Intel Core i5-14400F CPU</li>
+                    <li><i class="fas fa-check"></i> 16 GB DDR5 5200 MHZ RAM</li>
+                    <li><i class="fas fa-check"></i> 1 TB NVME Storage Space</li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="checkout-section">
+            <h2 class="checkout-section-title">Address</h2>
+            <div class="checkout-grid">
+                <div class="left-column">
+                    <div class="address-box">
+                        <div class="address-details">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div class="address-info">
+                                <h4>Rumah • Kim Jong Un Bin Somat</h4>
+                                <p>Boyan Tanjung adalah sebuah kecamatan di Kabupaten Kapuas Hulu, Kalimantan Barat, Indonesia.</p>
+                            </div>
+                        </div>
+                        <button class="change-btn">Change</button>
+                    </div>
+
+                    <div class="cart-summary">
+                        <h4>Products</h4>
+                        <div class="cart-summary-item"><p>Gladius 1 <br><small>Seamless streaming at 1440p</small></p><span class="qty">- 1 +</span><p>Rp 12.499.000</p></div>
+                        <div class="cart-summary-item"><p>Gladius 1 <br><small>Seamless streaming at 1440p</small></p><span class="qty">- 1 +</span><p>Rp 12.499.000</p></div>
+                        <div class="cart-summary-item"><p>Gladius 1 <br><small>Seamless streaming at 1440p</small></p><span class="qty">- 1 +</span><p>Rp 12.499.000</p></div>
+                    </div>
+
+                    <div class="note-box">
+                        <label for="note">Add note</label>
+                        <textarea id="note" rows="3" placeholder="Write note..."></textarea>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <div class="payment-box">
+                        <h4>Payment Metode</h4>
+                        <div class="payment-option"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/BRI_logo.svg/1280px-BRI_logo.svg.png" alt="BRI"><span>BRI Virtual Account</span></div>
+                        <div class="payment-option"><img src="https://upload.wikimedia.org/wikipedia/id/thumb/5/55/BNI_logo.svg/1280px-BNI_logo.svg.png" alt="BCA"><span>BCA Virtual Account</span></div>
+                        <div class="payment-option"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Mandiri_logo.svg/1280px-Mandiri_logo.svg.png" alt="Mandiri"><span>Mandiri Virtual Account</span></div>
+                        <div class="payment-option"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Logo_Indomaret.png" alt="Alfamart"><span>Alfamart/Alfamidi/Lawson</span></div>
+                        <input type="text" placeholder="Use promocode for discount">
+                        
+                        <div class="total-bill">
+                            <span>Total Bill</span>
+                            <span>Rp 13.699.000</span>
+                        </div>
+                        <button class="buy-now-lg-btn">Buy now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-wrapper">
+                <div class="footer-content">
+                    <div class="footer-column"><h4>Contacts</h4><ul><li><a href="#">Customer Support</a></li><li><a href="#">NC For Business</a></li><li><a href="#">Manage Account</a></li></ul></div>
+                    <div class="footer-column"><h4>About NC</h4><ul><li><a href="#">Company</a></li><li><a href="#">Founder Q&A</a></li><li><a href="#">Careers</a></li><li><a href="#">Customer Reviews</a></li></ul></div>
+                    <div class="footer-column"><h4>Community</h4><ul><li><a href="#">NC Club</a></li><li><a href="#">Blog</a></li></ul></div>
+                </div>
+                <div class="footer-credit"><p>With <span class="heart">💜</span> from <strong>NathanComp</strong></p></div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
