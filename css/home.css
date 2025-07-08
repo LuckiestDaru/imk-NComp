@@ -1,7 +1,6 @@
-/* font*/
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-/* Variabel Warna dan Pengaturan Dasar */
 :root {
     --bg-dark: #212121;
     --bg-dark-secondary: #1a1a1a;
